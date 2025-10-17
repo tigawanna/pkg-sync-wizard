@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { PackageJsonInput } from "@/components/PackageJsonInput";
 import { SplitViewDiff } from "@/components/SplitViewDiff";
-import { CommandGenerator } from "@/components/CommandGenerator";
+import { SideCommandGenerator } from "@/components/SideCommandGenerator";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { comparePackageJsons, PackageDiff } from "@/lib/packageDiff";
@@ -13,6 +13,8 @@ const Index = () => {
   const [includeVersions, setIncludeVersions] = useLocalStorage("includeVersions", true);
   const [packageManager, setPackageManager] = useLocalStorage("packageManager", "npm");
   const [diff, setDiff] = useState<PackageDiff | null>(null);
+  const [selectedLeft, setSelectedLeft] = useState<string[]>([]);
+  const [selectedRight, setSelectedRight] = useState<string[]>([]);
 
   const handleCompare = () => {
     const result = comparePackageJsons(currentPackageJson, targetPackageJson);
@@ -75,14 +77,35 @@ const Index = () => {
         {/* Results Section */}
         {diff && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <SplitViewDiff diff={diff} />
-            <CommandGenerator
-              diff={diff}
-              includeVersions={includeVersions}
-              onIncludeVersionsChange={setIncludeVersions}
-              packageManager={packageManager}
-              onPackageManagerChange={setPackageManager}
+            <SplitViewDiff 
+              diff={diff} 
+              onLeftSelectionChange={setSelectedLeft}
+              onRightSelectionChange={setSelectedRight}
             />
+            
+            {/* Command Generators */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <SideCommandGenerator
+                diff={diff}
+                side="left"
+                selectedPackages={selectedLeft}
+                includeVersions={includeVersions}
+                onIncludeVersionsChange={setIncludeVersions}
+                packageManager={packageManager}
+                onPackageManagerChange={setPackageManager}
+                title="Commands for Current"
+              />
+              <SideCommandGenerator
+                diff={diff}
+                side="right"
+                selectedPackages={selectedRight}
+                includeVersions={includeVersions}
+                onIncludeVersionsChange={setIncludeVersions}
+                packageManager={packageManager}
+                onPackageManagerChange={setPackageManager}
+                title="Commands for Target"
+              />
+            </div>
           </div>
         )}
 
