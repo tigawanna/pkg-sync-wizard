@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { PackageJsonInput } from "@/components/PackageJsonInput";
-import { DiffResults } from "@/components/DiffResults";
+import { SplitViewDiff } from "@/components/SplitViewDiff";
 import { CommandGenerator } from "@/components/CommandGenerator";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -75,7 +75,7 @@ const Index = () => {
         {/* Results Section */}
         {diff && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <DiffResults diff={diff} />
+            <SplitViewDiff diff={diff} />
             <CommandGenerator
               diff={diff}
               includeVersions={includeVersions}
