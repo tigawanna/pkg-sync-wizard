@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { PackageJsonInput } from "@/components/PackageJsonInput";
 import { SplitViewDiff } from "@/components/SplitViewDiff";
 import { SideCommandGenerator } from "@/components/SideCommandGenerator";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { comparePackageJsons, PackageDiff } from "@/lib/packageDiff";
@@ -31,6 +32,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
+        {/* Theme Toggle */}
+        <div className="flex justify-end mb-4">
+          <ThemeToggle />
+        </div>
+        
         {/* Header */}
         <div className="text-center mb-12 space-y-4">
           <div className="flex items-center justify-center gap-3 mb-4">
